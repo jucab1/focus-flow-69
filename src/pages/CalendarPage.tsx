@@ -27,6 +27,13 @@ const CalendarPage = ({ history = [], tasks = [] }: CalendarPageProps) => {
     return slots;
   }, [firstDay, daysInMonth]);
 
+  // Check if a day has tasks (match by day name or date string)
+  const dayHasTask = (day: number): boolean => {
+    const dateObj = new Date(year, month, day);
+    const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+    return tasks.some((t) => t.date === dayName || t.date === 'today');
+  };
+
   const dumpsForDay = useMemo(() => {
     if (selectedDay === null) return [];
     return history.filter((h) => {
@@ -34,6 +41,14 @@ const CalendarPage = ({ history = [], tasks = [] }: CalendarPageProps) => {
       return d.getFullYear() === year && d.getMonth() === month && d.getDate() === selectedDay;
     });
   }, [selectedDay, history, year, month]);
+
+  const tasksForDay = useMemo(() => {
+    if (selectedDay === null) return [];
+    const dateObj = new Date(year, month, selectedDay);
+    const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+    const isToday = isCurrentMonth && selectedDay === todayDate.getDate();
+    return tasks.filter((t) => t.date === dayName || (isToday && t.date === 'today'));
+  }, [selectedDay, tasks, year, month, isCurrentMonth, todayDate]);
 
   const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
@@ -52,36 +67,35 @@ const CalendarPage = ({ history = [], tasks = [] }: CalendarPageProps) => {
           transition={{ delay: 0.15 }}
           className="mt-10 bubbly-card overflow-hidden"
         >
-          {/* Header */}
-          <div className="flex items-center justify-between px-7 py-5 border-b border-border/50">
+          <div className="flex items-center justify-between px-7 py-5 border-b border-border/30">
             <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={prevMonth}
-              className="w-9 h-9 rounded-full bg-muted flex items-center justify-center">
+              className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center">
               <ChevronLeft className="w-4 h-4 text-foreground" />
             </motion.button>
             <span className="font-heading font-bold text-[16px] text-foreground tracking-tight">{monthName}</span>
             <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={nextMonth}
-              className="w-9 h-9 rounded-full bg-muted flex items-center justify-center">
+              className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center">
               <ChevronRight className="w-4 h-4 text-foreground" />
             </motion.button>
           </div>
 
-          {/* Weekday labels */}
           <div className="grid grid-cols-7 px-5 pt-5">
             {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
               <div key={d} className="text-center text-[11px] font-bold text-muted-foreground py-2 uppercase tracking-wider">{d}</div>
             ))}
           </div>
 
-          {/* Day grid */}
           <div className="grid grid-cols-7 px-5 pb-5 gap-1.5">
             {daySlots.map((day, i) => {
               if (day === null) return <div key={`e-${i}`} />;
               const isToday = isCurrentMonth && day === todayDate.getDate();
               const isSelected = day === selectedDay;
+              const hasTasks = dayHasTask(day);
               const hasDumps = history.some((h) => {
                 const d = h.timestamp;
                 return d.getFullYear() === year && d.getMonth() === month && d.getDate() === day;
               });
+              const hasContent = hasTasks || hasDumps;
 
               return (
                 <motion.button
@@ -98,8 +112,8 @@ const CalendarPage = ({ history = [], tasks = [] }: CalendarPageProps) => {
                   }`}
                 >
                   {day}
-                  {hasDumps && !isSelected && (
-                    <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-accent" />
+                  {hasContent && !isSelected && (
+                    <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_6px_hsl(var(--primary))]" />
                   )}
                 </motion.button>
               );
@@ -107,28 +121,44 @@ const CalendarPage = ({ history = [], tasks = [] }: CalendarPageProps) => {
           </div>
         </motion.div>
 
-        {/* Selected day dumps */}
         <AnimatePresence>
           {selectedDay !== null && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="mt-8"
+              className="mt-8 space-y-6"
             >
-              <h3 className="font-heading font-bold text-[15px] text-foreground mb-4 tracking-tight">
+              <h3 className="font-heading font-bold text-[15px] text-foreground tracking-tight">
                 {monthName.split(' ')[0]} {selectedDay}
               </h3>
-              {dumpsForDay.length === 0 ? (
-                <p className="text-muted-foreground text-[14px]">Nothing dumped on this day ✨</p>
-              ) : (
-                <div className="space-y-4">
+
+              {tasksForDay.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-[12px] font-medium text-muted-foreground uppercase tracking-wider">Tasks</p>
+                  {tasksForDay.map((t) => (
+                    <div key={t.id} className="bubbly-card p-4 flex items-center gap-3">
+                      <div className={`w-2 h-2 rounded-full ${t.completed ? 'bg-secondary' : 'bg-primary'}`} />
+                      <span className={`text-[13px] font-medium ${t.completed ? 'line-through text-muted-foreground' : 'text-foreground'}`}>{t.title}</span>
+                      {t.time && <span className="text-[11px] text-muted-foreground ml-auto">{t.time}</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {dumpsForDay.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-[12px] font-medium text-muted-foreground uppercase tracking-wider">Dumps</p>
                   {dumpsForDay.map((d) => (
                     <div key={d.id} className="bubbly-card p-5">
                       <p className="text-[13px] font-mono text-muted-foreground">"{d.rawText}"</p>
                     </div>
                   ))}
                 </div>
+              )}
+
+              {tasksForDay.length === 0 && dumpsForDay.length === 0 && (
+                <p className="text-muted-foreground text-[14px]">Nothing on this day ✨</p>
               )}
             </motion.div>
           )}

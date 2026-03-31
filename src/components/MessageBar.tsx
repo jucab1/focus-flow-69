@@ -11,10 +11,7 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
   const [text, setText] = useState('');
 
   const handleFocus = () => setExpanded(true);
-  const handleClose = () => {
-    setExpanded(false);
-    setText('');
-  };
+  const handleClose = () => { setExpanded(false); setText(''); };
   const handleSubmit = () => {
     if (text.trim()) {
       onSubmit(text.trim());
@@ -23,15 +20,11 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
     }
   };
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSubmit(); }
   };
 
   return (
     <>
-      {/* Backdrop */}
       <AnimatePresence>
         {expanded && (
           <motion.div
@@ -39,24 +32,20 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="fixed inset-0 z-40 mesh-gradient-bg grainy"
+            className="fixed inset-0 z-40 mesh-gradient-bg"
+            style={{ backdropFilter: 'blur(20px)' }}
             onClick={handleClose}
           />
         )}
       </AnimatePresence>
 
-      {/* Bar */}
       <motion.div
         layout
         layoutId="message-bar"
         transition={{ type: 'spring', stiffness: 180, damping: 24 }}
         className={`relative z-50 ${expanded ? 'fixed inset-0 flex items-center justify-center p-8' : ''}`}
       >
-        <motion.div
-          layout
-          className={`w-full ${expanded ? 'max-w-xl' : 'max-w-2xl mx-auto'}`}
-        >
-          {/* Slide-up hint */}
+        <motion.div layout className={`w-full ${expanded ? 'max-w-xl' : 'max-w-2xl mx-auto'}`}>
           <AnimatePresence>
             {expanded && (
               <motion.p
@@ -64,7 +53,7 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 8 }}
                 transition={{ delay: 0.15 }}
-                className="text-center text-muted-foreground font-heading font-medium text-base mb-5 tracking-tight"
+                className="text-center text-muted-foreground font-heading font-medium text-base mb-5"
               >
                 Where should we start?
               </motion.p>
@@ -72,7 +61,7 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
           </AnimatePresence>
 
           <div className="p-[1.5px] rounded-[36px] gradient-outline">
-            <div className="bg-card rounded-[34px] overflow-hidden">
+            <div className="glass-card rounded-[34px] overflow-hidden" style={{ borderRadius: '34px' }}>
               <div className="flex items-center gap-3 px-5 py-4">
                 <motion.div layout className="flex-1">
                   {expanded ? (
@@ -94,34 +83,22 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
                   )}
                 </motion.div>
                 {!expanded && (
-                  <motion.button
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-muted-foreground"
-                  >
+                  <motion.button whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.9 }}
+                    className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground">
                     <Mic className="w-4 h-4" />
                   </motion.button>
                 )}
                 {expanded && (
-                  <motion.button
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    whileTap={{ scale: 0.9 }}
+                  <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.9 }}
                     onClick={handleClose}
-                    className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground self-start"
-                  >
+                    className="w-8 h-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground self-start">
                     <X className="w-4 h-4" />
                   </motion.button>
                 )}
               </div>
               <AnimatePresence>
                 {expanded && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="px-5 pb-4"
-                  >
+                  <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="px-5 pb-4">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.95 }}

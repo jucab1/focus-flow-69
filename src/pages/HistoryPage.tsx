@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Calendar, Search } from 'lucide-react';
+import { Calendar, Search } from 'lucide-react';
 import { HistoryItem } from '@/lib/store';
 import TaskBadge from '@/components/TaskBadge';
 
@@ -46,12 +46,11 @@ const HistoryPage = ({ history }: HistoryPageProps) => {
           <p className="text-muted-foreground text-[14px] mt-1">Everything you've dumped, organized.</p>
         </motion.div>
 
-        {/* Live search */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mt-8 flex items-center gap-3 bg-muted/50 rounded-full px-5 py-3.5"
+          className="mt-8 flex items-center gap-3 glass-card rounded-full px-5 py-3.5"
         >
           <Search className="w-4 h-4 text-muted-foreground shrink-0" />
           <input
@@ -65,13 +64,7 @@ const HistoryPage = ({ history }: HistoryPageProps) => {
         <div className="mt-10 space-y-10">
           <AnimatePresence mode="popLayout">
             {Object.entries(groups).map(([date, items], gi) => (
-              <motion.div
-                key={date}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ delay: gi * 0.1 }}
-              >
+              <motion.div key={date} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ delay: gi * 0.1 }}>
                 <div className="flex items-center gap-2 mb-5">
                   <Calendar className="w-4 h-4 text-primary" />
                   <span className="font-heading font-bold text-[13px] text-primary tracking-wide">{date}</span>
@@ -90,11 +83,6 @@ const HistoryPage = ({ history }: HistoryPageProps) => {
                         "{item.rawText}"
                       </p>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lavender-light text-[12px] font-medium text-foreground">
-                          <Sparkles className="w-3 h-3 text-primary" />
-                          AI found {item.extractedTasks} Task{item.extractedTasks !== 1 ? 's' : ''}
-                          {item.extractedEvents > 0 && ` and ${item.extractedEvents} Event${item.extractedEvents !== 1 ? 's' : ''}`}
-                        </span>
                         {item.tags?.map((tag) => (
                           <TaskBadge key={tag} tag={tag} />
                         ))}

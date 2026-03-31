@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { toast } from 'sonner';
 import AppSidebar from '@/components/AppSidebar';
 import EditDrawer from '@/components/EditDrawer';
 import Dashboard from '@/pages/Dashboard';
@@ -31,7 +32,7 @@ const Index = () => {
     }
   };
 
-  const handleTaskClick = (task: Task) => {
+  const handleEditTask = (task: Task) => {
     setEditingTask(task);
     setDrawerOpen(true);
   };
@@ -44,12 +45,43 @@ const Index = () => {
     setTasks(tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
   };
 
+  const deleteTask = (id: string) => {
+    setTasks(tasks.filter((t) => t.id !== id));
+    toast.success('Task deleted');
+  };
+
+  const handleSubmit = (text: string) => {
+    // Add a single task with the exact text
+    const newTask: Task = {
+      id: `t${Date.now()}`,
+      title: text,
+      completed: false,
+      category: 'urgent',
+      date: 'today',
+      tag: 'personal',
+      bucket: 'Personal',
+    };
+    setTasks((prev) => [newTask, ...prev]);
+
+    // Add to history
+    const newHistory: HistoryItem = {
+      id: `h${Date.now()}`,
+      rawText: text,
+      extractedTasks: 1,
+      extractedEvents: 0,
+      timestamp: new Date(),
+      tags: ['personal'],
+    };
+    setHistory([newHistory, ...history]);
+    toast.success('Task logged!');
+  };
+
   const renderPage = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard tasks={tasks} setTasks={setTasks} history={history} setHistory={setHistory} onTaskClick={handleTaskClick} />;
+        return <Dashboard tasks={tasks} setTasks={setTasks} history={history} setHistory={setHistory} onEditTask={handleEditTask} onDeleteTask={deleteTask} onSubmit={handleSubmit} />;
       case 'tasks':
-        return <TaskVaultPage tasks={tasks} onToggle={toggleTask} onTaskClick={handleTaskClick} />;
+        return <TaskVaultPage tasks={tasks} onToggle={toggleTask} onEditTask={handleEditTask} onDeleteTask={deleteTask} />;
       case 'history':
         return <HistoryPage history={history} />;
       case 'calendar':
@@ -62,7 +94,7 @@ const Index = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex min-h-screen w-full mesh-bg grainy">
       <AppSidebar
         activeTab={activeTab}
         onTabChange={setActiveTab}

@@ -11,7 +11,7 @@ const DailyFuel = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
-      className="bubbly-card p-8 flex flex-col items-center text-center bg-card/60 backdrop-blur-sm"
+      className="bubbly-card p-8 flex flex-col items-center text-center"
     >
       <Flame className="w-5 h-5 text-accent mb-3" />
       <h3 className="font-heading font-bold text-[13px] text-muted-foreground mb-4 tracking-wide uppercase">Daily Fuel</h3>
