@@ -1,4 +1,4 @@
-import { LayoutDashboard, Clock, Calendar, Settings } from 'lucide-react';
+import { LayoutDashboard, Clock, Calendar, Settings, FolderOpen } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface AppSidebarProps {
@@ -10,6 +10,7 @@ interface AppSidebarProps {
 
 const navItems = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'tasks', label: 'Task Vault', icon: FolderOpen },
   { id: 'history', label: 'History', icon: Clock },
   { id: 'calendar', label: 'Calendar', icon: Calendar },
   { id: 'settings', label: 'Settings', icon: Settings },
@@ -30,7 +31,7 @@ const AppSidebar = ({ activeTab, onTabChange, collapsed, onToggle }: AppSidebarP
         <motion.div
           whileTap={{ scale: 0.85 }}
           whileHover={{ scale: 1.1 }}
-          className="w-10 h-10 rounded-bubbly bg-primary/10 flex items-center justify-center"
+          className="w-10 h-10 rounded-[20px] bg-primary/10 flex items-center justify-center"
         >
           <div className="flex flex-col gap-[3px]">
             <motion.span animate={{ rotate: collapsed ? 0 : 0 }} className="block w-5 h-[3px] rounded-full bg-primary" />
@@ -60,14 +61,14 @@ const AppSidebar = ({ activeTab, onTabChange, collapsed, onToggle }: AppSidebarP
               onClick={() => onTabChange(item.id)}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className={`flex items-center gap-3 px-3 py-3 rounded-bubbly transition-colors relative ${
+              className={`flex items-center gap-3 px-3 py-3 rounded-[20px] transition-colors relative ${
                 isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {isActive && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute inset-0 bg-primary/10 rounded-bubbly"
+                  className="absolute inset-0 bg-primary/10 rounded-[20px]"
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}

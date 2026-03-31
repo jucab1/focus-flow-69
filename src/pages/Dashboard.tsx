@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import MessageBar from '@/components/MessageBar';
 import UrgentCard from '@/components/UrgentCard';
 import WeeklyCard from '@/components/WeeklyCard';
-import { initialTasks, initialHistory, Task, HistoryItem } from '@/lib/store';
+import FocusScore from '@/components/FocusScore';
+import DailyFuel from '@/components/DailyFuel';
+import { Task, HistoryItem } from '@/lib/store';
 
 interface DashboardProps {
   tasks: Task[];
@@ -12,23 +14,33 @@ interface DashboardProps {
   setHistory: (history: HistoryItem[]) => void;
 }
 
+const floatVariants = {
+  animate: {
+    y: [0, -4, 0],
+    transition: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
+  },
+};
+
 const Dashboard = ({ tasks, setTasks, history, setHistory }: DashboardProps) => {
   const [messageBarActive, setMessageBarActive] = useState(false);
 
   const urgentTasks = tasks.filter((t) => t.category === 'urgent');
   const weeklyTasks = tasks.filter((t) => t.category === 'weekly');
+  const completedCount = tasks.filter((t) => t.completed).length;
 
   const toggleTask = (id: string) => {
     setTasks(tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
   };
 
   const handleSubmit = (text: string) => {
+    const tags = (['finance', 'personal', 'academic'] as const).slice(0, Math.floor(Math.random() * 3) + 1);
     const newHistory: HistoryItem = {
       id: `h${Date.now()}`,
       rawText: text,
       extractedTasks: Math.floor(Math.random() * 4) + 1,
       extractedEvents: Math.floor(Math.random() * 2),
       timestamp: new Date(),
+      tags: [...tags],
     };
     setHistory([newHistory, ...history]);
     setMessageBarActive(false);
@@ -57,10 +69,27 @@ const Dashboard = ({ tasks, setTasks, history, setHistory }: DashboardProps) => 
           scale: messageBarActive ? 0.95 : 1,
         }}
         transition={{ duration: 0.4 }}
-        className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6"
+        className="mt-8 space-y-6"
       >
-        <UrgentCard tasks={urgentTasks} onToggle={toggleTask} />
-        <WeeklyCard tasks={weeklyTasks} />
+        {/* Task cards row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <motion.div variants={floatVariants} animate="animate">
+            <UrgentCard tasks={urgentTasks} onToggle={toggleTask} />
+          </motion.div>
+          <motion.div variants={floatVariants} animate="animate" style={{ animationDelay: '1s' }}>
+            <WeeklyCard tasks={weeklyTasks} />
+          </motion.div>
+        </div>
+
+        {/* Bottom widgets */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div variants={floatVariants} animate="animate">
+            <FocusScore completed={completedCount} total={tasks.length} />
+          </motion.div>
+          <motion.div variants={floatVariants} animate="animate">
+            <DailyFuel />
+          </motion.div>
+        </div>
       </motion.div>
     </div>
   );
