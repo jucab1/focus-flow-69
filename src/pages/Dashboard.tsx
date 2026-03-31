@@ -81,10 +81,10 @@ const Dashboard = ({ tasks, setTasks, history, setHistory }: DashboardProps) => 
 
         {/* Bottom widgets */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <motion.div variants={floatVariants} animate="animate">
+          <motion.div animate={floatAnimation}>
             <FocusScore completed={completedCount} total={tasks.length} />
           </motion.div>
-          <motion.div variants={floatVariants} animate="animate">
+          <motion.div animate={floatAnimation}>
             <DailyFuel />
           </motion.div>
         </div>
