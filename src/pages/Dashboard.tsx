@@ -14,11 +14,9 @@ interface DashboardProps {
   setHistory: (history: HistoryItem[]) => void;
 }
 
-const floatVariants = {
-  animate: {
-    y: [0, -4, 0],
-    transition: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
-  },
+const floatAnimation = {
+  y: [0, -4, 0],
+  transition: { duration: 4, repeat: Infinity, ease: 'easeInOut' as const },
 };
 
 const Dashboard = ({ tasks, setTasks, history, setHistory }: DashboardProps) => {
