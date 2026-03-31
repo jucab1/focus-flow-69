@@ -15,16 +15,16 @@ const FocusScore = ({ completed, total }: FocusScoreProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="bubbly-card p-6 flex flex-col items-center"
+      className="bubbly-card p-8 flex flex-col items-center bg-card/60 backdrop-blur-sm"
     >
-      <h3 className="font-heading font-bold text-sm text-muted-foreground mb-4">Focus Score</h3>
+      <h3 className="font-heading font-bold text-[13px] text-muted-foreground mb-5 tracking-wide uppercase">Focus Score</h3>
       <div className="relative w-28 h-28">
         <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="45" fill="none" stroke="hsl(var(--muted))" strokeWidth="6" />
+          <circle cx="50" cy="50" r="45" fill="none" stroke="hsl(var(--muted))" strokeWidth="5" />
           <motion.circle
             cx="50" cy="50" r="45" fill="none"
             stroke="url(#scoreGradient)"
-            strokeWidth="6"
+            strokeWidth="5"
             strokeLinecap="round"
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference }}
@@ -33,8 +33,8 @@ const FocusScore = ({ completed, total }: FocusScoreProps) => {
           />
           <defs>
             <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="hsl(262, 83%, 68%)" />
-              <stop offset="100%" stopColor="hsl(160, 52%, 72%)" />
+              <stop offset="0%" stopColor="hsl(var(--primary))" />
+              <stop offset="100%" stopColor="hsl(var(--secondary))" />
             </linearGradient>
           </defs>
         </svg>
@@ -49,7 +49,7 @@ const FocusScore = ({ completed, total }: FocusScoreProps) => {
           </motion.span>
         </div>
       </div>
-      <p className="text-xs text-muted-foreground mt-3">{completed}/{total} tasks done</p>
+      <p className="text-[12px] text-muted-foreground mt-4">{completed}/{total} tasks done</p>
     </motion.div>
   );
 };

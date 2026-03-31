@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import AppSidebar from '@/components/AppSidebar';
+import EditDrawer from '@/components/EditDrawer';
 import Dashboard from '@/pages/Dashboard';
 import HistoryPage from '@/pages/HistoryPage';
 import CalendarPage from '@/pages/CalendarPage';
@@ -14,11 +15,12 @@ const Index = () => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [history, setHistory] = useState<HistoryItem[]>(initialHistory);
   const [currentTheme, setCurrentTheme] = useState<ThemeId>('default');
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleThemeChange = (themeId: ThemeId) => {
     setCurrentTheme(themeId);
     const root = document.documentElement;
-    // Remove all theme classes
     root.classList.remove('theme-solana', 'theme-sakura', 'theme-finance', 'dark');
     const theme = themes.find((t) => t.id === themeId);
     if (theme?.className) {
@@ -29,6 +31,15 @@ const Index = () => {
     }
   };
 
+  const handleTaskClick = (task: Task) => {
+    setEditingTask(task);
+    setDrawerOpen(true);
+  };
+
+  const handleTaskSave = (updated: Task) => {
+    setTasks(tasks.map((t) => (t.id === updated.id ? updated : t)));
+  };
+
   const toggleTask = (id: string) => {
     setTasks(tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)));
   };
@@ -36,9 +47,9 @@ const Index = () => {
   const renderPage = () => {
     switch (activeTab) {
       case 'dashboard':
-        return <Dashboard tasks={tasks} setTasks={setTasks} history={history} setHistory={setHistory} />;
+        return <Dashboard tasks={tasks} setTasks={setTasks} history={history} setHistory={setHistory} onTaskClick={handleTaskClick} />;
       case 'tasks':
-        return <TaskVaultPage tasks={tasks} onToggle={toggleTask} />;
+        return <TaskVaultPage tasks={tasks} onToggle={toggleTask} onTaskClick={handleTaskClick} />;
       case 'history':
         return <HistoryPage history={history} />;
       case 'calendar':
@@ -61,15 +72,22 @@ const Index = () => {
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.25 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.2 }}
           className="flex-1 flex flex-col min-w-0"
         >
           {renderPage()}
         </motion.div>
       </AnimatePresence>
+
+      <EditDrawer
+        task={editingTask}
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        onSave={handleTaskSave}
+      />
     </div>
   );
 };
