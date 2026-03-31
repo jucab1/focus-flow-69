@@ -15,7 +15,7 @@ const FocusScore = ({ completed, total }: FocusScoreProps) => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="bubbly-card p-8 flex flex-col items-center bg-card/60 backdrop-blur-sm"
+      className="bubbly-card p-8 flex flex-col items-center"
     >
       <h3 className="font-heading font-bold text-[13px] text-muted-foreground mb-5 tracking-wide uppercase">Focus Score</h3>
       <div className="relative w-28 h-28">
@@ -39,12 +39,7 @@ const FocusScore = ({ completed, total }: FocusScoreProps) => {
           </defs>
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
-          <motion.span
-            className="font-heading font-bold text-2xl text-foreground"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-          >
+          <motion.span className="font-heading font-bold text-2xl text-foreground" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
             {pct}%
           </motion.span>
         </div>

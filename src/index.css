@@ -2,48 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:wght@700;800;900&display=swap');
 
 @layer base {
   :root {
-    --background: 240 7% 97%;
+    --background: 230 25% 96%;
     --foreground: 240 10% 12%;
-
     --card: 0 0% 100%;
     --card-foreground: 240 10% 12%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 12%;
-
     --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 160 45% 65%;
     --secondary-foreground: 160 40% 12%;
-
     --muted: 240 8% 93%;
     --muted-foreground: 240 5% 46%;
-
     --accent: 16 80% 68%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 72% 60%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 240 8% 90%;
     --input: 240 8% 90%;
     --ring: 262 83% 58%;
-
     --radius: 1.75rem;
-
     --lavender: 262 83% 58%;
     --mint: 160 45% 65%;
     --coral: 16 80% 68%;
     --lavender-light: 262 70% 94%;
     --mint-light: 160 40% 93%;
     --coral-light: 16 70% 93%;
-
-    --sidebar-background: 240 7% 97%;
+    --sidebar-background: 230 25% 96%;
     --sidebar-foreground: 240 10% 12%;
     --sidebar-primary: 262 83% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
@@ -51,9 +40,10 @@
     --sidebar-accent-foreground: 262 50% 30%;
     --sidebar-border: 240 8% 92%;
     --sidebar-ring: 262 83% 58%;
-
     --font-heading: 'DM Sans', sans-serif;
     --font-body: 'DM Sans', sans-serif;
+    --glass-bg: rgba(255, 255, 255, 0.35);
+    --glass-border: rgba(255, 255, 255, 0.5);
   }
 
   .dark {
@@ -76,6 +66,8 @@
     --border: 240 10% 18%;
     --input: 240 10% 18%;
     --ring: 262 83% 62%;
+    --glass-bg: rgba(30, 30, 40, 0.4);
+    --glass-border: rgba(255, 255, 255, 0.08);
     --sidebar-background: 240 10% 8%;
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 262 83% 62%;
@@ -94,6 +86,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
+    letter-spacing: -0.02em;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
@@ -114,29 +107,51 @@
     background: linear-gradient(135deg, hsl(262, 83%, 58%), hsl(160, 45%, 65%), hsl(16, 80%, 68%));
   }
 
-  .bubbly-card {
-    @apply rounded-[32px] bg-card border border-border;
-    box-shadow: 0 1px 3px hsl(240 10% 50% / 0.04), 0 4px 16px hsl(240 10% 50% / 0.03);
+  /* Glassmorphism card */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    @apply rounded-[32px];
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
   }
+
+  .bubbly-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px) saturate(180%);
+    -webkit-backdrop-filter: blur(25px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    @apply rounded-[32px];
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+  }
+
   .bubbly-btn {
     @apply rounded-[32px] font-semibold transition-all;
   }
 
-  /* Grainy noise overlay */
-  .grainy {
-    position: relative;
+  /* Deep grainy mesh gradient background */
+  .mesh-bg {
+    background:
+      radial-gradient(ellipse at 15% 30%, #E0E7FF 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 20%, #FDF2F8 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, #F0FDF4 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 60%, #EDE9FE 0%, transparent 40%);
+    background-color: hsl(var(--background));
   }
+
+  /* Global noise grain overlay */
   .grainy::before {
     content: '';
-    position: absolute;
+    position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 1;
-    opacity: 0.35;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    z-index: 9999;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
     background-repeat: repeat;
-    background-size: 200px 200px;
-    border-radius: inherit;
+    background-size: 256px 256px;
+    mix-blend-mode: multiply;
   }
 
   .mesh-gradient-bg {
@@ -193,6 +208,8 @@
   --border: 240 10% 18%;
   --input: 240 10% 18%;
   --ring: 160 90% 50%;
+  --glass-bg: rgba(20, 25, 35, 0.45);
+  --glass-border: rgba(20, 241, 149, 0.12);
   --sidebar-background: 240 10% 8%;
   --sidebar-foreground: 160 80% 90%;
   --sidebar-primary: 160 90% 50%;
@@ -219,6 +236,8 @@
   --border: 340 25% 90%;
   --input: 340 25% 90%;
   --ring: 340 70% 65%;
+  --glass-bg: rgba(255, 240, 245, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.5);
   --sidebar-background: 0 0% 100%;
   --sidebar-foreground: 340 20% 20%;
   --sidebar-primary: 340 70% 65%;
@@ -245,6 +264,8 @@
   --border: 240 10% 20%;
   --input: 240 10% 20%;
   --ring: 35 90% 55%;
+  --glass-bg: rgba(25, 25, 35, 0.45);
+  --glass-border: rgba(217, 169, 56, 0.1);
   --sidebar-background: 240 10% 10%;
   --sidebar-foreground: 35 20% 90%;
   --sidebar-primary: 35 90% 55%;

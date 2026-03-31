@@ -21,14 +21,11 @@ const AppSidebar = ({ activeTab, onTabChange, collapsed, onToggle }: AppSidebarP
     <motion.aside
       animate={{ width: collapsed ? 76 : 260 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="h-screen flex flex-col overflow-hidden shrink-0 bg-background/60 backdrop-blur-xl border-r border-border/50"
+      className="h-screen flex flex-col overflow-hidden shrink-0 glass-card rounded-none rounded-r-[32px] border-l-0"
     >
       {/* Logo & burger */}
       <div className="px-4 pt-6 pb-4">
-        <button
-          onClick={onToggle}
-          className="flex items-center gap-3 group"
-        >
+        <button onClick={onToggle} className="flex items-center gap-3 group">
           <motion.div
             whileTap={{ scale: 0.85 }}
             whileHover={{ scale: 1.08 }}
@@ -36,10 +33,7 @@ const AppSidebar = ({ activeTab, onTabChange, collapsed, onToggle }: AppSidebarP
           >
             <div className="flex flex-col gap-[4px]">
               <motion.span className="block w-[18px] h-[2.5px] rounded-full bg-foreground/70" />
-              <motion.span
-                animate={{ width: collapsed ? 18 : 12 }}
-                className="block h-[2.5px] rounded-full bg-foreground/70"
-              />
+              <motion.span animate={{ width: collapsed ? 18 : 12 }} className="block h-[2.5px] rounded-full bg-foreground/70" />
               <motion.span className="block w-[18px] h-[2.5px] rounded-full bg-foreground/70" />
             </div>
           </motion.div>
@@ -48,9 +42,10 @@ const AppSidebar = ({ activeTab, onTabChange, collapsed, onToggle }: AppSidebarP
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0 }}
-              className="font-heading font-bold text-[22px] tracking-tight text-foreground"
+              className="text-[18px] tracking-[0.25em] font-bold text-foreground"
+              style={{ fontFamily: "'Playfair Display', serif" }}
             >
-              Focus.
+              FOCUS
             </motion.span>
           )}
         </button>
@@ -82,7 +77,7 @@ const AppSidebar = ({ activeTab, onTabChange, collapsed, onToggle }: AppSidebarP
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="font-medium text-[14px] relative z-10 whitespace-nowrap tracking-tight"
+                  className="font-medium text-[14px] relative z-10 whitespace-nowrap"
                 >
                   {item.label}
                 </motion.span>

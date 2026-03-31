@@ -1,13 +1,14 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, X, Check } from 'lucide-react';
-import { Task, TaskTag, tagColors } from '@/lib/store';
+import { Search, X, Check, Pencil, Trash2 } from 'lucide-react';
+import { Task } from '@/lib/store';
 import TaskBadge from '@/components/TaskBadge';
 
 interface TaskVaultPageProps {
   tasks: Task[];
   onToggle: (id: string) => void;
-  onTaskClick?: (task: Task) => void;
+  onEditTask?: (task: Task) => void;
+  onDeleteTask?: (id: string) => void;
 }
 
 const filterPills: { label: string; value: string }[] = [
@@ -18,10 +19,11 @@ const filterPills: { label: string; value: string }[] = [
   { label: 'Personal', value: 'personal' },
 ];
 
-const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => {
+const TaskVaultPage = ({ tasks, onToggle, onEditTask, onDeleteTask }: TaskVaultPageProps) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     let result = tasks;
@@ -54,7 +56,6 @@ const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => 
             <p className="text-muted-foreground text-[14px] mt-1">All your tasks, organized.</p>
           </div>
 
-          {/* Morphing search */}
           <motion.div layout className="flex items-center">
             <AnimatePresence mode="wait">
               {searchOpen ? (
@@ -64,7 +65,7 @@ const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => 
                   animate={{ width: 240 }}
                   exit={{ width: 40 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  className="flex items-center bg-muted rounded-full px-4 py-2.5 gap-2"
+                  className="flex items-center glass-card rounded-full px-4 py-2.5 gap-2"
                 >
                   <Search className="w-4 h-4 text-muted-foreground shrink-0" />
                   <input
@@ -84,7 +85,7 @@ const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => 
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setSearchOpen(true)}
-                  className="w-10 h-10 rounded-full bg-muted flex items-center justify-center"
+                  className="w-10 h-10 rounded-full glass-card flex items-center justify-center"
                 >
                   <Search className="w-4 h-4 text-muted-foreground" />
                 </motion.button>
@@ -93,8 +94,7 @@ const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => 
           </motion.div>
         </motion.div>
 
-        {/* Pill filters */}
-        <div className="mt-8 flex gap-2 flex-wrap sticky top-0 z-10 bg-background/80 backdrop-blur-lg py-3 -mx-2 px-2">
+        <div className="mt-8 flex gap-2 flex-wrap sticky top-0 z-10 py-3 -mx-2 px-2">
           {filterPills.map((pill) => (
             <motion.button
               key={pill.value}
@@ -104,7 +104,7 @@ const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => 
               className={`px-4 py-2 rounded-full text-[13px] font-medium transition-colors ${
                 activeFilter === pill.value
                   ? 'gradient-lavender text-primary-foreground'
-                  : 'bg-muted text-muted-foreground hover:text-foreground'
+                  : 'glass-card text-muted-foreground hover:text-foreground'
               }`}
             >
               {pill.label}
@@ -112,7 +112,6 @@ const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => 
           ))}
         </div>
 
-        {/* Buckets */}
         <div className="mt-8 space-y-8">
           <AnimatePresence mode="popLayout">
             {buckets.map(([bucket, bTasks], bi) => (
@@ -124,28 +123,25 @@ const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => 
                 transition={{ delay: bi * 0.05 }}
                 className="bubbly-card overflow-hidden"
               >
-                <div className="px-7 py-5 bg-muted/20 border-b border-border/50">
+                <div className="px-7 py-5 border-b border-border/30">
                   <h3 className="font-heading font-bold text-[14px] text-foreground tracking-tight">{bucket}</h3>
                   <p className="text-[12px] text-muted-foreground">{bTasks.length} task{bTasks.length !== 1 ? 's' : ''}</p>
                 </div>
                 <div className="p-4 flex flex-col gap-1">
                   {bTasks.map((task, i) => (
-                    <motion.button
+                    <motion.div
                       key={task.id}
                       initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: bi * 0.05 + i * 0.03 }}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => onTaskClick?.(task)}
-                      className="flex items-center gap-3 p-3.5 rounded-[18px] hover:bg-muted/30 transition-colors text-left"
+                      animate={{ opacity: task.completed ? 0.4 : 1, x: 0 }}
+                      transition={{ delay: bi * 0.05 + i * 0.03, duration: task.completed ? 1.5 : 0.3 }}
+                      className="flex items-center gap-3 p-3.5 rounded-[18px] hover:bg-muted/20 transition-colors group"
                     >
-                      <motion.div
+                      <motion.button
                         className={`w-[22px] h-[22px] rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                          task.completed ? 'bg-secondary border-secondary' : 'border-muted-foreground/30'
+                          task.completed ? 'bg-secondary border-secondary' : 'border-muted-foreground/30 hover:border-primary/50'
                         }`}
                         whileTap={{ scale: 1.4 }}
-                        onClick={(e) => { e.stopPropagation(); onToggle(task.id); }}
+                        onClick={() => onToggle(task.id)}
                       >
                         <AnimatePresence>
                           {task.completed && (
@@ -154,12 +150,43 @@ const TaskVaultPage = ({ tasks, onToggle, onTaskClick }: TaskVaultPageProps) => 
                             </motion.div>
                           )}
                         </AnimatePresence>
-                      </motion.div>
+                      </motion.button>
                       <span className={`text-[13px] font-medium flex-1 ${task.completed ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
                         {task.title}
                       </span>
                       {task.tag && <TaskBadge tag={task.tag} />}
-                    </motion.button>
+
+                      <motion.button
+                        whileHover={{ scale: 1.15 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => onEditTask?.(task)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </motion.button>
+
+                      {confirmDeleteId === task.id ? (
+                        <div className="flex items-center gap-1">
+                          <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.9 }}
+                            onClick={() => { onDeleteTask?.(task.id); setConfirmDeleteId(null); }}
+                            className="px-2.5 py-1 rounded-full bg-destructive/10 text-destructive text-[11px] font-medium"
+                          >Delete</motion.button>
+                          <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.9 }}
+                            onClick={() => setConfirmDeleteId(null)}
+                            className="px-2 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-medium"
+                          >Cancel</motion.button>
+                        </div>
+                      ) : (
+                        <motion.button
+                          whileHover={{ scale: 1.15 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => setConfirmDeleteId(task.id)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-full flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </motion.button>
+                      )}
+                    </motion.div>
                   ))}
                 </div>
               </motion.div>
