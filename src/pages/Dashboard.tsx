@@ -71,10 +71,10 @@ const Dashboard = ({ tasks, setTasks, history, setHistory }: DashboardProps) => 
       >
         {/* Task cards row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <motion.div variants={floatVariants} animate="animate">
+          <motion.div animate={floatAnimation}>
             <UrgentCard tasks={urgentTasks} onToggle={toggleTask} />
           </motion.div>
-          <motion.div variants={floatVariants} animate="animate" style={{ animationDelay: '1s' }}>
+          <motion.div animate={floatAnimation}>
             <WeeklyCard tasks={weeklyTasks} />
           </motion.div>
         </div>
