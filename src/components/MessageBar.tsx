@@ -31,7 +31,7 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop with mesh gradient */}
       <AnimatePresence>
         {expanded && (
           <motion.div
@@ -39,7 +39,7 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm"
+            className="fixed inset-0 z-40 mesh-gradient-bg"
             onClick={handleClose}
           />
         )}
@@ -48,15 +48,31 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
       {/* Bar */}
       <motion.div
         layout
-        transition={{ type: 'spring', stiffness: 280, damping: 28 }}
+        layoutId="message-bar"
+        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
         className={`relative z-50 ${expanded ? 'fixed inset-0 flex items-center justify-center p-6' : ''}`}
       >
         <motion.div
           layout
           className={`w-full ${expanded ? 'max-w-2xl' : 'max-w-3xl mx-auto'}`}
         >
-          <div className="p-[2px] rounded-bubbly gradient-outline">
-            <div className="bg-card rounded-[26px] overflow-hidden">
+          {/* Slide-up text hint */}
+          <AnimatePresence>
+            {expanded && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ delay: 0.2 }}
+                className="text-center text-muted-foreground font-heading text-lg mb-4"
+              >
+                Where should we start?
+              </motion.p>
+            )}
+          </AnimatePresence>
+
+          <div className="p-[2px] rounded-[40px] gradient-outline">
+            <div className="bg-card rounded-[38px] overflow-hidden">
               <div className="flex items-center gap-3 px-5 py-4">
                 <motion.div layout className="flex-1">
                   {expanded ? (
@@ -110,7 +126,7 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.97 }}
                       onClick={handleSubmit}
-                      className="bubbly-btn w-full py-3 gradient-lavender text-primary-foreground flex items-center justify-center gap-2"
+                      className="bubbly-btn shimmer-btn w-full py-3 gradient-lavender text-primary-foreground flex items-center justify-center gap-2"
                     >
                       <Sparkles className="w-4 h-4" />
                       <span>Process</span>

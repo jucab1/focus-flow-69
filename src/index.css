@@ -119,4 +119,115 @@
   .bubbly-btn {
     @apply rounded-[28px] font-semibold transition-all;
   }
+  .mesh-gradient-bg {
+    background:
+      radial-gradient(ellipse at 20% 50%, hsl(262, 80%, 85%, 0.5), transparent 50%),
+      radial-gradient(ellipse at 80% 20%, hsl(160, 50%, 85%, 0.5), transparent 50%),
+      radial-gradient(ellipse at 50% 80%, hsl(280, 60%, 88%, 0.4), transparent 50%);
+    backdrop-filter: blur(15px);
+    background-color: hsl(var(--background) / 0.85);
+  }
+  .shimmer-btn {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    animation: shimmer 3s infinite;
+  }
+  @keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Theme: Solana Night */
+.theme-solana {
+  --background: 240 10% 6%;
+  --foreground: 160 90% 85%;
+  --card: 240 10% 10%;
+  --card-foreground: 160 80% 90%;
+  --primary: 160 90% 50%;
+  --primary-foreground: 240 10% 6%;
+  --secondary: 262 60% 50%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 240 10% 15%;
+  --muted-foreground: 160 30% 60%;
+  --accent: 160 90% 50%;
+  --accent-foreground: 240 10% 6%;
+  --border: 240 10% 18%;
+  --input: 240 10% 18%;
+  --ring: 160 90% 50%;
+  --sidebar-background: 240 10% 8%;
+  --sidebar-foreground: 160 80% 90%;
+  --sidebar-primary: 160 90% 50%;
+  --sidebar-primary-foreground: 240 10% 6%;
+  --sidebar-accent: 160 60% 15%;
+  --sidebar-accent-foreground: 160 80% 80%;
+  --sidebar-border: 240 10% 15%;
+}
+
+/* Theme: Sakura Study */
+.theme-sakura {
+  --background: 340 50% 97%;
+  --foreground: 340 20% 20%;
+  --card: 0 0% 100%;
+  --card-foreground: 340 20% 20%;
+  --primary: 340 70% 65%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 340 40% 82%;
+  --secondary-foreground: 340 30% 25%;
+  --muted: 340 30% 93%;
+  --muted-foreground: 340 15% 50%;
+  --accent: 340 60% 72%;
+  --accent-foreground: 0 0% 100%;
+  --border: 340 25% 90%;
+  --input: 340 25% 90%;
+  --ring: 340 70% 65%;
+  --sidebar-background: 0 0% 100%;
+  --sidebar-foreground: 340 20% 20%;
+  --sidebar-primary: 340 70% 65%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 340 60% 95%;
+  --sidebar-accent-foreground: 340 50% 35%;
+  --sidebar-border: 340 25% 92%;
+}
+
+/* Theme: Finance Grind */
+.theme-finance {
+  --background: 240 10% 8%;
+  --foreground: 35 20% 90%;
+  --card: 240 10% 12%;
+  --card-foreground: 35 20% 90%;
+  --primary: 35 90% 55%;
+  --primary-foreground: 240 10% 8%;
+  --secondary: 240 10% 22%;
+  --secondary-foreground: 35 50% 80%;
+  --muted: 240 10% 16%;
+  --muted-foreground: 35 15% 55%;
+  --accent: 35 90% 55%;
+  --accent-foreground: 240 10% 8%;
+  --border: 240 10% 20%;
+  --input: 240 10% 20%;
+  --ring: 35 90% 55%;
+  --sidebar-background: 240 10% 10%;
+  --sidebar-foreground: 35 20% 90%;
+  --sidebar-primary: 35 90% 55%;
+  --sidebar-primary-foreground: 240 10% 8%;
+  --sidebar-accent: 35 50% 15%;
+  --sidebar-accent-foreground: 35 70% 75%;
+  --sidebar-border: 240 10% 18%;
 }
