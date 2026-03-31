@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        heading: ['Space Grotesk', 'sans-serif'],
-        body: ['Nunito', 'sans-serif'],
+        heading: ['DM Sans', 'sans-serif'],
+        body: ['DM Sans', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -78,7 +78,7 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 4px)",
         sm: "calc(var(--radius) - 8px)",
-        bubbly: "28px",
+        bubbly: "32px",
       },
       keyframes: {
         "accordion-down": {

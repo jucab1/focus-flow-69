@@ -2,88 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 @layer base {
   :root {
-    --background: 40 20% 97%;
-    --foreground: 240 10% 16%;
+    --background: 240 7% 97%;
+    --foreground: 240 10% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 16%;
+    --card-foreground: 240 10% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 16%;
+    --popover-foreground: 240 10% 12%;
 
-    --primary: 262 83% 68%;
+    --primary: 262 83% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 160 52% 72%;
-    --secondary-foreground: 160 40% 16%;
+    --secondary: 160 45% 65%;
+    --secondary-foreground: 160 40% 12%;
 
-    --muted: 240 10% 94%;
-    --muted-foreground: 240 5% 50%;
+    --muted: 240 8% 93%;
+    --muted-foreground: 240 5% 46%;
 
-    --accent: 10 85% 72%;
+    --accent: 16 80% 68%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 240 10% 90%;
-    --input: 240 10% 90%;
-    --ring: 262 83% 68%;
+    --border: 240 8% 90%;
+    --input: 240 8% 90%;
+    --ring: 262 83% 58%;
 
     --radius: 1.75rem;
 
-    --lavender: 262 83% 68%;
-    --mint: 160 52% 72%;
-    --coral: 10 85% 72%;
-    --lavender-light: 262 80% 92%;
-    --mint-light: 160 50% 92%;
-    --coral-light: 10 80% 92%;
+    --lavender: 262 83% 58%;
+    --mint: 160 45% 65%;
+    --coral: 16 80% 68%;
+    --lavender-light: 262 70% 94%;
+    --mint-light: 160 40% 93%;
+    --coral-light: 16 70% 93%;
 
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 240 10% 16%;
-    --sidebar-primary: 262 83% 68%;
+    --sidebar-background: 240 7% 97%;
+    --sidebar-foreground: 240 10% 12%;
+    --sidebar-primary: 262 83% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 262 80% 95%;
-    --sidebar-accent-foreground: 262 60% 30%;
-    --sidebar-border: 240 10% 92%;
-    --sidebar-ring: 262 83% 68%;
+    --sidebar-accent: 262 70% 96%;
+    --sidebar-accent-foreground: 262 50% 30%;
+    --sidebar-border: 240 8% 92%;
+    --sidebar-ring: 262 83% 58%;
 
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Nunito', sans-serif;
+    --font-heading: 'DM Sans', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
   }
 
   .dark {
-    --background: 240 10% 8%;
+    --background: 240 10% 6%;
     --foreground: 0 0% 95%;
-    --card: 240 10% 12%;
+    --card: 240 10% 10%;
     --card-foreground: 0 0% 95%;
-    --popover: 240 10% 12%;
+    --popover: 240 10% 10%;
     --popover-foreground: 0 0% 95%;
-    --primary: 262 83% 68%;
+    --primary: 262 83% 62%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 160 52% 72%;
-    --secondary-foreground: 160 40% 16%;
-    --muted: 240 10% 18%;
-    --muted-foreground: 240 5% 60%;
-    --accent: 10 85% 72%;
+    --secondary: 160 45% 65%;
+    --secondary-foreground: 160 40% 12%;
+    --muted: 240 10% 16%;
+    --muted-foreground: 240 5% 55%;
+    --accent: 16 80% 68%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 95%;
-    --border: 240 10% 20%;
-    --input: 240 10% 20%;
-    --ring: 262 83% 68%;
-    --sidebar-background: 240 10% 10%;
+    --border: 240 10% 18%;
+    --input: 240 10% 18%;
+    --ring: 262 83% 62%;
+    --sidebar-background: 240 10% 8%;
     --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 262 83% 68%;
+    --sidebar-primary: 262 83% 62%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 262 60% 20%;
-    --sidebar-accent-foreground: 262 80% 90%;
-    --sidebar-border: 240 10% 18%;
-    --sidebar-ring: 262 83% 68%;
+    --sidebar-accent: 262 50% 18%;
+    --sidebar-accent-foreground: 262 70% 85%;
+    --sidebar-border: 240 10% 16%;
+    --sidebar-ring: 262 83% 62%;
   }
 }
 
@@ -102,31 +102,52 @@
 
 @layer components {
   .gradient-lavender {
-    background: linear-gradient(135deg, hsl(262, 83%, 68%), hsl(280, 70%, 75%));
+    background: linear-gradient(135deg, hsl(262, 83%, 58%), hsl(280, 65%, 68%));
   }
   .gradient-mint {
-    background: linear-gradient(135deg, hsl(160, 52%, 72%), hsl(140, 50%, 78%));
+    background: linear-gradient(135deg, hsl(160, 45%, 65%), hsl(140, 42%, 72%));
   }
   .gradient-coral {
-    background: linear-gradient(135deg, hsl(10, 85%, 72%), hsl(25, 80%, 78%));
+    background: linear-gradient(135deg, hsl(16, 80%, 68%), hsl(28, 75%, 72%));
   }
   .gradient-outline {
-    background: linear-gradient(135deg, hsl(262, 83%, 68%), hsl(160, 52%, 72%), hsl(10, 85%, 72%));
+    background: linear-gradient(135deg, hsl(262, 83%, 58%), hsl(160, 45%, 65%), hsl(16, 80%, 68%));
   }
+
   .bubbly-card {
-    @apply rounded-[28px] bg-card shadow-lg shadow-black/5 border border-border;
+    @apply rounded-[32px] bg-card border border-border;
+    box-shadow: 0 1px 3px hsl(240 10% 50% / 0.04), 0 4px 16px hsl(240 10% 50% / 0.03);
   }
   .bubbly-btn {
-    @apply rounded-[28px] font-semibold transition-all;
+    @apply rounded-[32px] font-semibold transition-all;
   }
+
+  /* Grainy noise overlay */
+  .grainy {
+    position: relative;
+  }
+  .grainy::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    border-radius: inherit;
+  }
+
   .mesh-gradient-bg {
     background:
-      radial-gradient(ellipse at 20% 50%, hsl(262, 80%, 85%, 0.5), transparent 50%),
-      radial-gradient(ellipse at 80% 20%, hsl(160, 50%, 85%, 0.5), transparent 50%),
-      radial-gradient(ellipse at 50% 80%, hsl(280, 60%, 88%, 0.4), transparent 50%);
-    backdrop-filter: blur(15px);
-    background-color: hsl(var(--background) / 0.85);
+      radial-gradient(ellipse at 25% 40%, hsl(262 70% 88% / 0.6), transparent 55%),
+      radial-gradient(ellipse at 75% 25%, hsl(160 40% 88% / 0.5), transparent 55%),
+      radial-gradient(ellipse at 50% 75%, hsl(280 50% 90% / 0.4), transparent 55%);
+    backdrop-filter: blur(20px);
+    background-color: hsl(var(--background) / 0.8);
   }
+
   .shimmer-btn {
     position: relative;
     overflow: hidden;
@@ -138,13 +159,14 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     animation: shimmer 3s infinite;
   }
   @keyframes shimmer {
     0% { left: -100%; }
     100% { left: 100%; }
   }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

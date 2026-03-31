@@ -6,9 +6,10 @@ import TaskBadge from './TaskBadge';
 interface UrgentCardProps {
   tasks: Task[];
   onToggle: (id: string) => void;
+  onTaskClick?: (task: Task) => void;
 }
 
-const UrgentCard = ({ tasks, onToggle }: UrgentCardProps) => {
+const UrgentCard = ({ tasks, onToggle, onTaskClick }: UrgentCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -16,48 +17,47 @@ const UrgentCard = ({ tasks, onToggle }: UrgentCardProps) => {
       transition={{ delay: 0.1 }}
       className="bubbly-card overflow-hidden"
     >
-      <div className="gradient-coral px-6 py-4">
-        <h3 className="font-heading font-bold text-lg text-accent-foreground">🔥 Urgent</h3>
+      <div className="gradient-coral px-7 py-5">
+        <h3 className="font-heading font-bold text-[15px] text-accent-foreground tracking-tight">🔥 Urgent</h3>
       </div>
-      <div className="p-4 flex flex-col gap-2">
+      <div className="p-5 flex flex-col gap-1.5">
         {tasks.map((task, i) => (
           <motion.button
             key={task.id}
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.15 + i * 0.05 }}
-            whileHover={{ scale: 1.03, boxShadow: '0 8px 25px -5px rgba(0,0,0,0.1)' }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => onToggle(task.id)}
-            className="flex items-center gap-3 p-3 rounded-[20px] hover:bg-muted/50 transition-colors text-left"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => onTaskClick?.(task)}
+            className="flex items-center gap-3 p-3.5 rounded-[18px] hover:bg-muted/40 transition-colors text-left"
           >
-            <div className="relative">
+            <div
+              className="relative"
+              onClick={(e) => { e.stopPropagation(); onToggle(task.id); }}
+            >
               <motion.div
-                className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                  task.completed ? 'bg-secondary border-secondary' : 'border-coral'
+                className={`w-[22px] h-[22px] rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                  task.completed ? 'bg-secondary border-secondary' : 'border-muted-foreground/30'
                 }`}
                 whileTap={{ scale: 1.4 }}
               >
                 <AnimatePresence>
                   {task.completed && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                    >
-                      <Check className="w-3.5 h-3.5 text-secondary-foreground" />
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+                      <Check className="w-3 h-3 text-secondary-foreground" />
                     </motion.div>
                   )}
                 </AnimatePresence>
               </motion.div>
             </div>
             <div className="flex-1 min-w-0 flex items-center gap-2 flex-wrap">
-              <span className={`text-sm font-semibold ${task.completed ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
+              <span className={`text-[13px] font-medium ${task.completed ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
                 {task.title}
               </span>
               {task.tag && <TaskBadge tag={task.tag} />}
               {task.time && (
-                <span className="text-xs text-muted-foreground">{task.time}</span>
+                <span className="text-[12px] text-muted-foreground">{task.time}</span>
               )}
             </div>
           </motion.button>

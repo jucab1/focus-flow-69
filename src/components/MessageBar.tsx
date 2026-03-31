@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, Sparkles, X } from 'lucide-react';
+import { Mic, ArrowUp, X } from 'lucide-react';
 
 interface MessageBarProps {
   onSubmit: (text: string) => void;
@@ -31,15 +31,15 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
 
   return (
     <>
-      {/* Backdrop with mesh gradient */}
+      {/* Backdrop */}
       <AnimatePresence>
         {expanded && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 mesh-gradient-bg"
+            transition={{ duration: 0.35 }}
+            className="fixed inset-0 z-40 mesh-gradient-bg grainy"
             onClick={handleClose}
           />
         )}
@@ -49,30 +49,30 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
       <motion.div
         layout
         layoutId="message-bar"
-        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-        className={`relative z-50 ${expanded ? 'fixed inset-0 flex items-center justify-center p-6' : ''}`}
+        transition={{ type: 'spring', stiffness: 180, damping: 24 }}
+        className={`relative z-50 ${expanded ? 'fixed inset-0 flex items-center justify-center p-8' : ''}`}
       >
         <motion.div
           layout
-          className={`w-full ${expanded ? 'max-w-2xl' : 'max-w-3xl mx-auto'}`}
+          className={`w-full ${expanded ? 'max-w-xl' : 'max-w-2xl mx-auto'}`}
         >
-          {/* Slide-up text hint */}
+          {/* Slide-up hint */}
           <AnimatePresence>
             {expanded && (
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ delay: 0.2 }}
-                className="text-center text-muted-foreground font-heading text-lg mb-4"
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ delay: 0.15 }}
+                className="text-center text-muted-foreground font-heading font-medium text-base mb-5 tracking-tight"
               >
                 Where should we start?
               </motion.p>
             )}
           </AnimatePresence>
 
-          <div className="p-[2px] rounded-[40px] gradient-outline">
-            <div className="bg-card rounded-[38px] overflow-hidden">
+          <div className="p-[1.5px] rounded-[36px] gradient-outline">
+            <div className="bg-card rounded-[34px] overflow-hidden">
               <div className="flex items-center gap-3 px-5 py-4">
                 <motion.div layout className="flex-1">
                   {expanded ? (
@@ -81,25 +81,25 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
                       value={text}
                       onChange={(e) => setText(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      placeholder="You have my full attention. Dump everything here—I'll sort it out."
-                      className="w-full bg-transparent resize-none outline-none font-body text-foreground placeholder:text-muted-foreground min-h-[100px]"
+                      placeholder="Dump everything here — I'll sort it out."
+                      className="w-full bg-transparent resize-none outline-none text-[15px] text-foreground placeholder:text-muted-foreground min-h-[90px] leading-relaxed"
                     />
                   ) : (
                     <input
                       onFocus={handleFocus}
                       readOnly
-                      placeholder="Vibe-check: What's on your mind? Type or speak a mess..."
-                      className="w-full bg-transparent outline-none font-body text-foreground placeholder:text-muted-foreground cursor-pointer"
+                      placeholder="What's on your mind?"
+                      className="w-full bg-transparent outline-none text-[15px] text-foreground placeholder:text-muted-foreground cursor-pointer"
                     />
                   )}
                 </motion.div>
                 {!expanded && (
                   <motion.button
-                    whileHover={{ scale: 1.1 }}
+                    whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.9 }}
-                    className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary"
+                    className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-muted-foreground"
                   >
-                    <Mic className="w-5 h-5" />
+                    <Mic className="w-4 h-4" />
                   </motion.button>
                 )}
                 {expanded && (
@@ -123,12 +123,12 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
                     className="px-5 pb-4"
                   >
                     <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.97 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={handleSubmit}
-                      className="bubbly-btn shimmer-btn w-full py-3 gradient-lavender text-primary-foreground flex items-center justify-center gap-2"
+                      className="bubbly-btn shimmer-btn w-full py-3.5 gradient-lavender text-primary-foreground flex items-center justify-center gap-2 text-[14px]"
                     >
-                      <Sparkles className="w-4 h-4" />
+                      <ArrowUp className="w-4 h-4" />
                       <span>Process</span>
                     </motion.button>
                   </motion.div>
