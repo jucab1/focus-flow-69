@@ -65,7 +65,7 @@ const TaskVaultPage = ({ tasks, onToggle, onEditTask, onDeleteTask }: TaskVaultP
                   animate={{ width: 240 }}
                   exit={{ width: 40 }}
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                  className="flex items-center glass-card rounded-full px-4 py-2.5 gap-2"
+                  className="flex items-center matte-card px-4 py-2.5 gap-2"
                 >
                   <Search className="w-4 h-4 text-muted-foreground shrink-0" />
                   <input
@@ -85,7 +85,7 @@ const TaskVaultPage = ({ tasks, onToggle, onEditTask, onDeleteTask }: TaskVaultP
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setSearchOpen(true)}
-                  className="w-10 h-10 rounded-full glass-card flex items-center justify-center"
+                  className="w-10 h-10 rounded-full matte-card flex items-center justify-center"
                 >
                   <Search className="w-4 h-4 text-muted-foreground" />
                 </motion.button>
@@ -104,7 +104,7 @@ const TaskVaultPage = ({ tasks, onToggle, onEditTask, onDeleteTask }: TaskVaultP
               className={`px-4 py-2 rounded-full text-[13px] font-medium transition-colors ${
                 activeFilter === pill.value
                   ? 'gradient-lavender text-primary-foreground'
-                  : 'glass-card text-muted-foreground hover:text-foreground'
+                  : 'bg-card text-muted-foreground hover:text-foreground border border-border'
               }`}
             >
               {pill.label}
@@ -123,7 +123,7 @@ const TaskVaultPage = ({ tasks, onToggle, onEditTask, onDeleteTask }: TaskVaultP
                 transition={{ delay: bi * 0.05 }}
                 className="bubbly-card overflow-hidden"
               >
-                <div className="px-7 py-5 border-b border-border/30">
+                <div className="px-7 py-5 border-b border-border">
                   <h3 className="font-heading font-bold text-[14px] text-foreground tracking-tight">{bucket}</h3>
                   <p className="text-[12px] text-muted-foreground">{bTasks.length} task{bTasks.length !== 1 ? 's' : ''}</p>
                 </div>
@@ -134,7 +134,7 @@ const TaskVaultPage = ({ tasks, onToggle, onEditTask, onDeleteTask }: TaskVaultP
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: task.completed ? 0.4 : 1, x: 0 }}
                       transition={{ delay: bi * 0.05 + i * 0.03, duration: task.completed ? 1.5 : 0.3 }}
-                      className="flex items-center gap-3 p-3.5 rounded-[18px] hover:bg-muted/20 transition-colors group"
+                      className="flex items-center gap-3 p-3.5 rounded-[18px] hover:bg-muted/40 transition-colors group"
                     >
                       <motion.button
                         className={`w-[22px] h-[22px] rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
@@ -160,7 +160,7 @@ const TaskVaultPage = ({ tasks, onToggle, onEditTask, onDeleteTask }: TaskVaultP
                         whileHover={{ scale: 1.15 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => onEditTask?.(task)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted"
                       >
                         <Pencil className="w-3.5 h-3.5" />
                       </motion.button>

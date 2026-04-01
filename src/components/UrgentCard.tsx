@@ -33,9 +33,8 @@ const UrgentCard = ({ tasks, onToggle, onEditTask, onDeleteTask }: UrgentCardPro
               animate={{ opacity: task.completed ? 0.4 : 1, x: 0 }}
               exit={{ opacity: 0, height: 0, marginBottom: 0 }}
               transition={{ delay: task.completed ? 0 : 0.15 + i * 0.05, duration: task.completed ? 1.5 : 0.3 }}
-              className="flex items-center gap-3 p-3.5 rounded-[18px] hover:bg-muted/20 transition-colors group"
+              className="flex items-center gap-3 p-3.5 rounded-[18px] hover:bg-muted/40 transition-colors group"
             >
-              {/* Checkbox - only toggles done */}
               <motion.button
                 whileTap={{ scale: 1.4 }}
                 onClick={() => onToggle(task.id)}
@@ -60,37 +59,25 @@ const UrgentCard = ({ tasks, onToggle, onEditTask, onDeleteTask }: UrgentCardPro
                 {task.time && <span className="text-[12px] text-muted-foreground">{task.time}</span>}
               </div>
 
-              {/* Edit pencil */}
               <motion.button
                 whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => onEditTask?.(task)}
-                className="opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted/40"
+                className="opacity-0 group-hover:opacity-100 transition-opacity w-7 h-7 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-muted"
               >
                 <Pencil className="w-3.5 h-3.5" />
               </motion.button>
 
-              {/* Delete trash */}
               {confirmDeleteId === task.id ? (
                 <div className="flex items-center gap-1">
-                  <motion.button
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    whileTap={{ scale: 0.9 }}
+                  <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.9 }}
                     onClick={() => { onDeleteTask?.(task.id); setConfirmDeleteId(null); }}
                     className="px-2.5 py-1 rounded-full bg-destructive/10 text-destructive text-[11px] font-medium"
-                  >
-                    Delete
-                  </motion.button>
-                  <motion.button
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    whileTap={{ scale: 0.9 }}
+                  >Delete</motion.button>
+                  <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.9 }}
                     onClick={() => setConfirmDeleteId(null)}
                     className="px-2 py-1 rounded-full bg-muted text-muted-foreground text-[11px] font-medium"
-                  >
-                    Cancel
-                  </motion.button>
+                  >Cancel</motion.button>
                 </div>
               ) : (
                 <motion.button

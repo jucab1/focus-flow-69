@@ -50,7 +50,7 @@ const HistoryPage = ({ history }: HistoryPageProps) => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mt-8 flex items-center gap-3 glass-card rounded-full px-5 py-3.5"
+          className="mt-8 flex items-center gap-3 matte-card px-5 py-3.5"
         >
           <Search className="w-4 h-4 text-muted-foreground shrink-0" />
           <input

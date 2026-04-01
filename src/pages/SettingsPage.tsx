@@ -51,7 +51,6 @@ const SettingsPage = ({ currentTheme, onThemeChange }: SettingsPageProps) => (
                   isActive ? 'ring-2 ring-primary' : ''
                 }`}
               >
-                {/* Color preview */}
                 <div className="flex gap-1.5 mb-4">
                   {colors.map((c, ci) => (
                     <div key={ci} className="h-5 flex-1 rounded-full" style={{ background: c }} />

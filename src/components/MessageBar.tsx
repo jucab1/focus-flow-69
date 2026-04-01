@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, ArrowUp, X } from 'lucide-react';
+import { ArrowUp, X } from 'lucide-react';
 
 interface MessageBarProps {
   onSubmit: (text: string) => void;
@@ -32,8 +32,8 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="fixed inset-0 z-40 mesh-gradient-bg"
-            style={{ backdropFilter: 'blur(20px)' }}
+            className="fixed inset-0 z-40"
+            style={{ background: 'hsl(var(--background) / 0.92)' }}
             onClick={handleClose}
           />
         )}
@@ -60,8 +60,9 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
             )}
           </AnimatePresence>
 
-          <div className="p-[1.5px] rounded-[36px] gradient-outline">
-            <div className="glass-card rounded-[34px] overflow-hidden" style={{ borderRadius: '34px' }}>
+          {/* Rainbow gradient border */}
+          <div className="p-[2px] rounded-[32px] gradient-rainbow">
+            <div className="bg-card rounded-[30px] overflow-hidden" style={{ boxShadow: 'var(--apple-shadow)' }}>
               <div className="flex items-center gap-3 px-5 py-4">
                 <motion.div layout className="flex-1">
                   {expanded ? (
@@ -82,16 +83,10 @@ const MessageBar = ({ onSubmit }: MessageBarProps) => {
                     />
                   )}
                 </motion.div>
-                {!expanded && (
-                  <motion.button whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.9 }}
-                    className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground">
-                    <Mic className="w-4 h-4" />
-                  </motion.button>
-                )}
                 {expanded && (
                   <motion.button initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.9 }}
                     onClick={handleClose}
-                    className="w-8 h-8 rounded-full bg-muted/50 flex items-center justify-center text-muted-foreground self-start">
+                    className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-muted-foreground self-start">
                     <X className="w-4 h-4" />
                   </motion.button>
                 )}

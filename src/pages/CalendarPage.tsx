@@ -27,7 +27,6 @@ const CalendarPage = ({ history = [], tasks = [] }: CalendarPageProps) => {
     return slots;
   }, [firstDay, daysInMonth]);
 
-  // Check if a day has tasks (match by day name or date string)
   const dayHasTask = (day: number): boolean => {
     const dateObj = new Date(year, month, day);
     const dayName = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
@@ -67,14 +66,14 @@ const CalendarPage = ({ history = [], tasks = [] }: CalendarPageProps) => {
           transition={{ delay: 0.15 }}
           className="mt-10 bubbly-card overflow-hidden"
         >
-          <div className="flex items-center justify-between px-7 py-5 border-b border-border/30">
+          <div className="flex items-center justify-between px-7 py-5 border-b border-border">
             <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={prevMonth}
-              className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center">
+              className="w-9 h-9 rounded-full bg-muted flex items-center justify-center">
               <ChevronLeft className="w-4 h-4 text-foreground" />
             </motion.button>
             <span className="font-heading font-bold text-[16px] text-foreground tracking-tight">{monthName}</span>
             <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={nextMonth}
-              className="w-9 h-9 rounded-full bg-muted/50 flex items-center justify-center">
+              className="w-9 h-9 rounded-full bg-muted flex items-center justify-center">
               <ChevronRight className="w-4 h-4 text-foreground" />
             </motion.button>
           </div>
@@ -108,12 +107,12 @@ const CalendarPage = ({ history = [], tasks = [] }: CalendarPageProps) => {
                       ? 'gradient-lavender text-primary-foreground'
                       : isToday
                       ? 'bg-primary/8 text-primary ring-1 ring-primary/20'
-                      : 'hover:bg-muted/40 text-foreground'
+                      : 'hover:bg-muted text-foreground'
                   }`}
                 >
                   {day}
                   {hasContent && !isSelected && (
-                    <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_6px_hsl(var(--primary))]" />
+                    <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-primary" />
                   )}
                 </motion.button>
               );
