@@ -8,6 +8,9 @@ import HistoryPage from '@/pages/HistoryPage';
 import CalendarPage from '@/pages/CalendarPage';
 import SettingsPage from '@/pages/SettingsPage';
 import TaskVaultPage from '@/pages/TaskVaultPage';
+import UrgentPage from '@/pages/UrgentPage';
+import WeeklyPage from '@/pages/WeeklyPage';
+import FocusScorePage from '@/pages/FocusScorePage';
 import { initialTasks, initialHistory, Task, HistoryItem, ThemeId, themes } from '@/lib/store';
 
 const Index = () => {
@@ -51,7 +54,6 @@ const Index = () => {
   };
 
   const handleSubmit = (text: string) => {
-    // Add a single task with the exact text
     const newTask: Task = {
       id: `t${Date.now()}`,
       title: text,
@@ -63,7 +65,6 @@ const Index = () => {
     };
     setTasks((prev) => [newTask, ...prev]);
 
-    // Add to history
     const newHistory: HistoryItem = {
       id: `h${Date.now()}`,
       rawText: text,
@@ -82,6 +83,12 @@ const Index = () => {
         return <Dashboard tasks={tasks} setTasks={setTasks} history={history} setHistory={setHistory} onEditTask={handleEditTask} onDeleteTask={deleteTask} onSubmit={handleSubmit} />;
       case 'tasks':
         return <TaskVaultPage tasks={tasks} onToggle={toggleTask} onEditTask={handleEditTask} onDeleteTask={deleteTask} />;
+      case 'urgent':
+        return <UrgentPage tasks={tasks} onToggle={toggleTask} onEditTask={handleEditTask} onDeleteTask={deleteTask} />;
+      case 'weekly':
+        return <WeeklyPage tasks={tasks} />;
+      case 'focus-score':
+        return <FocusScorePage tasks={tasks} />;
       case 'history':
         return <HistoryPage history={history} />;
       case 'calendar':

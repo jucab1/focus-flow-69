@@ -36,8 +36,8 @@ const WeeklyCard = ({ tasks }: WeeklyCardProps) => {
               whileHover={{ scale: isToday ? 1.12 : 1.04, y: -2 }}
               className={`w-[120px] shrink-0 rounded-[18px] p-3.5 flex flex-col gap-2 snap-center relative ${
                 isToday
-                  ? 'bg-primary/8 ring-1 ring-primary/20 shadow-[0_0_24px_hsl(262,83%,58%,0.12)]'
-                  : 'bg-muted/30'
+                  ? 'bg-primary/8 ring-1 ring-primary/20'
+                  : 'bg-muted/40'
               }`}
             >
               <div className="flex items-center gap-1.5">
@@ -56,7 +56,7 @@ const WeeklyCard = ({ tasks }: WeeklyCardProps) => {
                 <span className="text-[11px] text-muted-foreground">Free ✨</span>
               ) : (
                 dayTasks.map((t) => (
-                  <div key={t.id} className="text-[11px] text-foreground bg-card rounded-[12px] px-2.5 py-1.5">
+                  <div key={t.id} className="text-[11px] text-foreground bg-card rounded-[12px] px-2.5 py-1.5 border border-border">
                     {t.title}
                     {t.time && <span className="block text-muted-foreground mt-0.5 text-[10px]">{t.time}</span>}
                   </div>

@@ -1,4 +1,4 @@
-import { LayoutDashboard, Clock, Calendar, Settings, FolderOpen } from 'lucide-react';
+import { LayoutDashboard, Clock, Calendar, Settings, FolderOpen, Zap, CalendarRange, Flame } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface AppSidebarProps {
@@ -9,8 +9,11 @@ interface AppSidebarProps {
 }
 
 const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'dashboard', label: 'Home', icon: LayoutDashboard },
   { id: 'tasks', label: 'Task Vault', icon: FolderOpen },
+  { id: 'urgent', label: 'Urgent', icon: Zap },
+  { id: 'weekly', label: 'Weekly', icon: CalendarRange },
+  { id: 'focus-score', label: 'Focus Score', icon: Flame },
   { id: 'history', label: 'History', icon: Clock },
   { id: 'calendar', label: 'Calendar', icon: Calendar },
   { id: 'settings', label: 'Settings', icon: Settings },
@@ -21,7 +24,8 @@ const AppSidebar = ({ activeTab, onTabChange, collapsed, onToggle }: AppSidebarP
     <motion.aside
       animate={{ width: collapsed ? 76 : 260 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="h-screen flex flex-col overflow-hidden shrink-0 glass-card rounded-none rounded-r-[32px] border-l-0"
+      className="h-screen flex flex-col overflow-hidden shrink-0 rounded-none rounded-r-[28px] border-r border-border"
+      style={{ background: 'hsl(var(--sidebar-background))' }}
     >
       {/* Logo & burger */}
       <div className="px-4 pt-6 pb-4">
@@ -29,7 +33,7 @@ const AppSidebar = ({ activeTab, onTabChange, collapsed, onToggle }: AppSidebarP
           <motion.div
             whileTap={{ scale: 0.85 }}
             whileHover={{ scale: 1.08 }}
-            className="w-11 h-11 rounded-[18px] bg-primary/8 flex items-center justify-center"
+            className="w-11 h-11 rounded-[18px] bg-muted flex items-center justify-center"
           >
             <div className="flex flex-col gap-[4px]">
               <motion.span className="block w-[18px] h-[2.5px] rounded-full bg-foreground/70" />
